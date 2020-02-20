@@ -1,4 +1,11 @@
 const db = require('../Data/mysql_help')
+const uuidv4 = require('uuid/v4')// 生成随机uuid uuidv4() 
+
+let registered = async (ctx, next) => {
+    let addSqlParams = ctx.request.body
+    await db.query('insert into userinfo values(?,?,?)', [uuidv4(), addSqlParams.name, addSqlParams.password])
+    ctx.body = { 'name': addSqlParams.name, 'password': addSqlParams.password }
+}
 
 let index = async (ctx, next) => {
     let h1_txt = 'hello koa2'
@@ -76,7 +83,7 @@ const Getsession = async (ctx, next) => {
 }
 
 module.exports = {
-    index, Get, post, cookies, setsession, Getsession,
+    index, Get, post, cookies, setsession, Getsession, registered,
     home: async (ctx, next) => {
         let h1_txt = 'hello koa2'
         let span_txt = 'ejs 渲染'

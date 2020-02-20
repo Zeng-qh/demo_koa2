@@ -15,7 +15,8 @@
     "koa-static-cache": "^5.1.2",
     "koa-views": "^6.2.1",
     "log4js": "^6.1.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "uuid": "^3.4.0"
   },
   "scripts": {
     "build": "node app.js",

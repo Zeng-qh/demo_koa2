@@ -24,6 +24,7 @@ module.exports = (app) => {
         .get('/redirect', async (ctx, next) => {
             ctx.response.redirect('http://baidu.com') //测试重定向
         })
+        .post('/registered', Controller.registered)
         .post('/login', async (ctx, next) => {
             console.dir(ctx);
         })
