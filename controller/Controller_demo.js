@@ -83,7 +83,11 @@ module.exports = {
         await ctx.render('index', { h1_txt, span_txt })
     },
     GetData: async (ctx, next) => {
-        ctx.body = await db.query('select * from city', '')
+        let request = ctx.request
+        let page = request.query.page == 0 ? 1 : request.query.page
+        let size = request.query.size
+        ctx.body = await db.query('select * from city limit ' + (page - 1) * size + ',' + size, '')
+        // http://localhost:3000/demo/getdata?page=6&size=20
     },
     Get_aid: async (ctx, next) => {// 动态路由传入多个参数
         // console.dir(ctx);            http://localhost:3000/demo/aid=12/bid=20
