@@ -1,10 +1,23 @@
 const db = require('../Data/mysql_help')
 const uuidv4 = require('uuid/v4')// 生成随机uuid uuidv4() 
 
+let login = async (ctx, next) => {
+    let addSqlParams = ctx.request.body
+    let userinfo = await db.query('SELECT Uname,Upassword from userinfo WHERE Uname=? and Upassword = ?', [addSqlParams.name, addSqlParams.password])
+    let islogin = userinfo.length > 0 ? true : false
+    ctx.body = { islogin, userinfo }
+}
+
 let registered = async (ctx, next) => {
     let addSqlParams = ctx.request.body
-    await db.query('insert into userinfo values(?,?,?)', [uuidv4(), addSqlParams.name, addSqlParams.password])
-    ctx.body = { 'name': addSqlParams.name, 'password': addSqlParams.password }
+    let userinfo = await db.query('SELECT Uname from userinfo WHERE Uname=?', [addSqlParams.name])
+    let isexistence = userinfo.length > 0 ? true : false
+    if (!isexistence) {
+        await db.query('insert into userinfo values(?,?,?)', [uuidv4(), addSqlParams.name, addSqlParams.password])
+        ctx.body = { 'name': addSqlParams.name, 'password': addSqlParams.password }
+    } else {
+        ctx.body = { "state": "existed", "data": { 'name': addSqlParams.name } }
+    }
 }
 
 let index = async (ctx, next) => {
@@ -82,22 +95,32 @@ const Getsession = async (ctx, next) => {
     }
 }
 
+const Get_aid = async (ctx, next) => {// 动态路由传入多个参数
+    // console.dir(ctx);            http://localhost:3000/demo/aid=12/bid=20
+    ctx.body = ctx.params  // 获取动态路由传值  {"aid": "aid=12","bid": "bid=20"}
+}
+const GetData = async (ctx, next) => {
+    let request = ctx.request
+    let page = request.query.page == 0 ? 1 : request.query.page
+    let size = request.query.size
+    ctx.body = await db.query('select * from city limit ' + (page - 1) * size + ',' + size, '')
+    // http://localhost:3000/demo/getdata?page=6&size=20
+}
+const home = async (ctx, next) => {
+    let h1_txt = 'hello koa2'
+    let span_txt = 'ejs 渲染'
+    await ctx.render('index', { h1_txt, span_txt })
+}
 module.exports = {
-    index, Get, post, cookies, setsession, Getsession, registered,
-    home: async (ctx, next) => {
-        let h1_txt = 'hello koa2'
-        let span_txt = 'ejs 渲染'
-        await ctx.render('index', { h1_txt, span_txt })
-    },
-    GetData: async (ctx, next) => {
-        let request = ctx.request
-        let page = request.query.page == 0 ? 1 : request.query.page
-        let size = request.query.size
-        ctx.body = await db.query('select * from city limit ' + (page - 1) * size + ',' + size, '')
-        // http://localhost:3000/demo/getdata?page=6&size=20
-    },
-    Get_aid: async (ctx, next) => {// 动态路由传入多个参数
-        // console.dir(ctx);            http://localhost:3000/demo/aid=12/bid=20
-        ctx.body = ctx.params  // 获取动态路由传值  {"aid": "aid=12","bid": "bid=20"}
-    }
+    index,
+    Get,
+    post,
+    cookies,
+    setsession,
+    Getsession,
+    registered,
+    login,
+    home,
+    GetData,
+    Get_aid
 }
