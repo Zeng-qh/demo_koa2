@@ -1,8 +1,8 @@
 {
     "mysql": {
-        "host": "",
+        "host": "dev.hayes.com",
         "user": "root",
-        "password": "",
+        "password": "RootPwd@123456",
         "port": 3306,
         "database": "nodeTest"
     }

@@ -1,5 +1,5 @@
 const mysql = require('mysql')
-const mysql_config = require('../config/config.json').mysql
+const mysql_config = require('../config/config.json').mysql  // 这里我使用的 域名是通过修改本地host 文件实现的
 
 // connection.connect((err, result) => {
 //   if (err) {
