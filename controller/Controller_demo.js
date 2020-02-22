@@ -13,7 +13,7 @@ let registered = async (ctx, next) => {
     let userinfo = await db.query('SELECT Uname from userinfo WHERE Uname=?', [addSqlParams.name])
     let isexistence = userinfo.length > 0 ? true : false
     if (!isexistence) {
-        let x = await db.query('insert into userinfo values(?,?,?,?)', [uuidv4(), addSqlParams.name, addSqlParams.password,0])
+        let x = await db.query('insert into userinfo values(?,?,?,?)', [uuidv4(), addSqlParams.name, addSqlParams.password, 0])
         ctx.body = { 'state': x, "data": { 'name': addSqlParams.name, 'password': addSqlParams.password } }
     } else {
         ctx.body = { "state": "existed", "data": { 'name': addSqlParams.name } }
@@ -101,9 +101,17 @@ const Get_aid = async (ctx, next) => {// 动态路由传入多个参数
 }
 const GetData = async (ctx, next) => {
     let request = ctx.request
-    let page = request.query.page == 0 ? 1 : request.query.page
-    let size = request.query.size
-    ctx.body = await db.query('select * from city limit ' + (page - 1) * size + ',' + size, '')
+    let isPagination = request.query.page == undefined ? false : true
+    let sql = ''
+    if (isPagination) {
+        let page = request.query.page == 0 ? 1 : request.query.page
+        let size = request.query.size
+        sql = 'select * from city limit ' + (page - 1) * size + ',' + size
+    }
+    else {
+        sql = 'select * from city'
+    }
+    ctx.body = await db.query(sql, '')
     // http://localhost:3000/demo/getdata?page=6&size=20
 }
 const home = async (ctx, next) => {
