@@ -3,7 +3,7 @@ const uuidv4 = require('uuid/v4')// 生成随机uuid uuidv4()
 
 let login = async (ctx, next) => {
     let addSqlParams = ctx.request.body
-    let userinfo = await db.query('SELECT Uname,Upassword from userinfo WHERE Uname=? and Upassword = ?', [addSqlParams.name, addSqlParams.password])
+    let userinfo = await db.query('SELECT Uname,Upassword from userinfo WHERE Uname=? and Upassword = ?', [addSqlParams.username, addSqlParams.password])
     let islogin = userinfo.length > 0 ? true : false
     ctx.body = { islogin, userinfo }
 }
@@ -13,8 +13,8 @@ let registered = async (ctx, next) => {
     let userinfo = await db.query('SELECT Uname from userinfo WHERE Uname=?', [addSqlParams.name])
     let isexistence = userinfo.length > 0 ? true : false
     if (!isexistence) {
-        await db.query('insert into userinfo values(?,?,?)', [uuidv4(), addSqlParams.name, addSqlParams.password])
-        ctx.body = { 'name': addSqlParams.name, 'password': addSqlParams.password }
+        let x = await db.query('insert into userinfo values(?,?,?,?)', [uuidv4(), addSqlParams.name, addSqlParams.password,0])
+        ctx.body = { 'state': x, "data": { 'name': addSqlParams.name, 'password': addSqlParams.password } }
     } else {
         ctx.body = { "state": "existed", "data": { 'name': addSqlParams.name } }
     }

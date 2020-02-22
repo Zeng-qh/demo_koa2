@@ -8,6 +8,7 @@ const log4js = require('./logger/index') // logs4js
 const views = require('koa-views') //模板引擎 中间件  要安装ejs
 const path = require('path')
 const bodyParser = require('koa-bodyparser')// 获取post 参数
+const ip = require('ip') // 
 
 //#region 
 const GetPostData = (app) => { app.use(bodyParser()) }
@@ -63,7 +64,7 @@ const logger = (app) => {
         projectName: 'demo_koa2',
         appLogLevel: 'all',
         dir: 'logs',
-        serverIp: '127.0.0.1'
+        serverIp: ip.address()
     }))
 }
 
