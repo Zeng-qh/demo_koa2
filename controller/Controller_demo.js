@@ -119,6 +119,10 @@ const home = async (ctx, next) => {
     let span_txt = 'ejs 渲染'
     await ctx.render('index', { h1_txt, span_txt })
 }
+
+const GteManagement = async (ctx, next) => {
+    ctx.body = await db.query('select * from management as A INNER JOIN management as B ON  A.pid=B.id   ', '')
+}
 module.exports = {
     index,
     Get,
@@ -130,5 +134,6 @@ module.exports = {
     login,
     home,
     GetData,
-    Get_aid
+    Get_aid,
+    GteManagement
 }

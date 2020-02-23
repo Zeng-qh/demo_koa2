@@ -16,6 +16,7 @@ module.exports = (app) => {
         .get('/Getsession', Controller.Getsession) // http://localhost:3000/demo/getsession
         .get('/setsession', Controller.setsession) // http://localhost:3000/demo/setsession?name=admin&age=20
         .get('/home', Controller.home)
+        
 
     router_main
         .get('/', async (ctx, next) => {
@@ -26,6 +27,7 @@ module.exports = (app) => {
         })
         .post('/registered', Controller.registered)
         .post('/login', Controller.login)
+        .get('./GteManagement',Controller.GteManagement)
 
 
     // router.use(router.routes(), router.allowedMethods())
