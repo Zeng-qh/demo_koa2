@@ -8,12 +8,12 @@ module.exports = (app) => {
 
     router_demo.prefix('/demo')
         .get('/', Controller.index)
-        .get('/GetData', Controller.GetData)
-        .get('/Get', Controller.Get)
-        .get('/:aid/:bid', Controller.Get_aid)
+        .get('/getdata', Controller.getdata)
+        .get('/get', Controller.Get)
+        .get('/:aid/:bid', Controller.get_aid)
         .post('/post', Controller.post)
         .get('/cookies', Controller.cookies)
-        .get('/Getsession', Controller.Getsession) // http://localhost:3000/demo/getsession
+        .get('/getsession', Controller.getsession) // http://localhost:3000/demo/getsession
         .get('/setsession', Controller.setsession) // http://localhost:3000/demo/setsession?name=admin&age=20
         .get('/home', Controller.home)
         
@@ -27,7 +27,7 @@ module.exports = (app) => {
         })
         .post('/registered', Controller.registered)
         .post('/login', Controller.login)
-        .get('./GteManagement',Controller.GteManagement)
+        .get('/gtemanagement',Controller.gtemanagement)
 
 
     // router.use(router.routes(), router.allowedMethods())

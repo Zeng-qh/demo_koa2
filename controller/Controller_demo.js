@@ -26,7 +26,7 @@ let index = async (ctx, next) => {
     await ctx.render('index', { h1_txt, span_txt })
 }
 
-let Get = async (ctx, next) => {
+let get = async (ctx, next) => {
     let url = ctx.url
     // 从上下文的request对象中获取
     let request = ctx.request
@@ -76,7 +76,7 @@ let setsession = async (ctx, next) => {
     }
 }
 
-const Getsession = async (ctx, next) => {
+const getsession = async (ctx, next) => {
     try {
         let name = ctx.session.username,
             age = ctx.session.age;
@@ -95,11 +95,11 @@ const Getsession = async (ctx, next) => {
     }
 }
 
-const Get_aid = async (ctx, next) => {// 动态路由传入多个参数
+const get_aid = async (ctx, next) => {// 动态路由传入多个参数
     // console.dir(ctx);            http://localhost:3000/demo/aid=12/bid=20
     ctx.body = ctx.params  // 获取动态路由传值  {"aid": "aid=12","bid": "bid=20"}
 }
-const GetData = async (ctx, next) => {
+const getdata = async (ctx, next) => {
     let request = ctx.request
     let isPagination = request.query.page == undefined ? false : true
     let sql = ''
@@ -120,20 +120,20 @@ const home = async (ctx, next) => {
     await ctx.render('index', { h1_txt, span_txt })
 }
 
-const GteManagement = async (ctx, next) => {
+const gtemanagement = async (ctx, next) => {
     ctx.body = await db.query('select * from management as A INNER JOIN management as B ON  A.pid=B.id   ', '')
 }
 module.exports = {
     index,
-    Get,
+    get,
     post,
     cookies,
     setsession,
-    Getsession,
+    getsession,
     registered,
     login,
     home,
-    GetData,
-    Get_aid,
-    GteManagement
+    getdata,
+    get_aid,
+    gtemanagement
 }
