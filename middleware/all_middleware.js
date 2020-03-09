@@ -1,4 +1,4 @@
-const router = require('../routers') //路由
+const router = require('./../routers') //路由
 const static = require('koa-static') // 静态资源处理 更多参照express_demo
 const session = require('koa-session') // session  
 const staticCache = require('koa-static-cache') // 静态缓存

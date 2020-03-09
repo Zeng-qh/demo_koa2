@@ -9,7 +9,7 @@ module.exports = (app) => {
     router_demo.prefix('/demo')
         .get('/', Controller.index)
         .get('/getdata', Controller.getdata)
-        .get('/get', Controller.Get)
+        .get('/get', Controller.get)
         .get('/:aid/:bid', Controller.get_aid)
         .post('/post', Controller.post)
         .get('/cookies', Controller.cookies)

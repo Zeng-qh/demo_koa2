@@ -56,7 +56,7 @@ let cookies = async (ctx, next) => {
         'hello world',
         {
             domain: 'localhost',  // 写cookie所在的域名
-            // path: '/index',       // 写cookie所在的路径
+            // path: '/index',// 写cookie所在的路径
             maxAge: 1000 * 5, // cookie有效时长
             // expires: new Date('2021-02-15'),  // cookie失效时间
             httpOnly: false,  // 是否只用于http请求中获取
@@ -96,7 +96,7 @@ const getsession = async (ctx, next) => {
 }
 
 const get_aid = async (ctx, next) => {// 动态路由传入多个参数
-    // console.dir(ctx);            http://localhost:3000/demo/aid=12/bid=20
+    // console.dir(ctx);     http://localhost:3000/demo/aid=12/bid=20
     ctx.body = ctx.params  // 获取动态路由传值  {"aid": "aid=12","bid": "bid=20"}
 }
 const getdata = async (ctx, next) => {
@@ -121,7 +121,7 @@ const home = async (ctx, next) => {
 }
 
 const gtemanagement = async (ctx, next) => {
-    ctx.body = await db.query('select * from management as A INNER JOIN management as B ON  A.pid=B.id   ', '')
+    ctx.body = await db.query('SELECT pid,  Pname FROM management where pid IS not NULL', '')
 }
 module.exports = {
     index,

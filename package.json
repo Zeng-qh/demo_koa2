@@ -21,7 +21,7 @@
   },
   "scripts": {
     "build": "node app.js",
-    "serve": "",
+    "serve": "node app.js",
     "lint": ""
   }
 }
